@@ -15,7 +15,7 @@ Introduction to Python 3 designed to Ph.D. Students in Political Science (WUSTL)
 | Day07 | Tue. 9/08 | SQL and Database	           | 							  |
 | Day08 | Wed. 9/09 | Recursion and Sorting       | HW4 assigned (due Mon. 9/14) |
 | Day09 | Fri. 9/11 | More on Data Structure       | HW5 assigned (due Thr. 9/17) |
-| Poster session    | TBD                          | 					          | 
+| Poster Video Session    |      Fri. 10/02                   | On Box					          | 
 
 
 ## Previous Instructors:
