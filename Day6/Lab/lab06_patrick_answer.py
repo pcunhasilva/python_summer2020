@@ -31,10 +31,10 @@ def close_far(dis, closest = True):
         km.append(float(dis['rows'][0]['elements'][i]['distance']['text'].split(" ")[0]))
     if closest == False:
     	maxIndex = km.index(max(km))
-    	return """Farthest Embassy Address: %s.\nDistance to the WH %skm""" % (dis['destination_addresses'][maxIndex], dis['rows'][0]['elements'][maxIndex]['distance']['text'])
+    	return """Farthest Embassy Address: %s.\nDistance to the WH %s""" % (dis['destination_addresses'][maxIndex], dis['rows'][0]['elements'][maxIndex]['distance']['text'])
     else:
     	minIndex = km.index(min(km))
-    	return """Closest Embassy Address: %s.\nDistance to the WH %skm""" % (dis['destination_addresses'][minIndex], dis['rows'][0]['elements'][minIndex]['distance']['text'])
+    	return """Closest Embassy Address: %s.\nDistance to the WH %s""" % (dis['destination_addresses'][minIndex], dis['rows'][0]['elements'][minIndex]['distance']['text'])
 
 # Find distances
 dis = distance(whitehouse, embassies)
