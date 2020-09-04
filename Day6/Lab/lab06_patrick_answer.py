@@ -1,5 +1,4 @@
 import googlemaps
-import responses
 import sys
 import importlib
 
@@ -22,7 +21,7 @@ embassies = [[38.917228,-77.0522365],
 
 print ("Let's find the closest embassy to the WH.")
 def distance(depart, destines):
-    dis =  gmaps.distance_matrix(depart, destines)
+    dis =  gmaps.distance_matrix(depart, embassies)
     return dis
 
 def close_far(dis, closest = True):
@@ -31,10 +30,10 @@ def close_far(dis, closest = True):
         km.append(float(dis['rows'][0]['elements'][i]['distance']['text'].split(" ")[0]))
     if closest == False:
     	maxIndex = km.index(max(km))
-    	return """Farthest Embassy Address: %s.\nDistance to the WH %s""" % (dis['destination_addresses'][maxIndex], dis['rows'][0]['elements'][maxIndex]['distance']['text'])
+    	return """Farthest Embassy Address: %s.\nDistance to the WH: %sm""" % (dis['destination_addresses'][maxIndex], max(km) * 1000)
     else:
     	minIndex = km.index(min(km))
-    	return """Closest Embassy Address: %s.\nDistance to the WH %s""" % (dis['destination_addresses'][minIndex], dis['rows'][0]['elements'][minIndex]['distance']['text'])
+    	return """Closest Embassy Address: %s.\nDistance to the WH: %sm""" % (dis['destination_addresses'][minIndex], min(km) * 1000)
 
 # Find distances
 dis = distance(whitehouse, embassies)
@@ -44,7 +43,7 @@ print(close_far(dis))
 
 # 2) if I wanted to hold a morning meeting there, which cafe would you suggest?
 breakfastpalce = gmaps.places_nearby(embassies[1], keyword = 'breakfast',
-                min_price = 2, max_price = 5, type = 'cafe',
+                min_price = 3, max_price = 5, type = 'cafe',
                 rank_by = "distance")
 print ("Get the name of the place:")
 print (breakfastpalce['results'][0]['name'])
