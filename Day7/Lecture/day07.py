@@ -39,7 +39,7 @@ os.chdir('/Users/pcunhasilva/Dropbox/PythonClass/Summer2020/Day7/Lecture')
 #---------- Using sql with Python ----------#
 
 # pip install sqlalchemy
-# pip install pysqlite
+
 # Check: http://pythoncentral.io/introductory-tutorial-python-sqlalchemy/
 # To find documentation: https://www.kite.com/python/docs/
 
@@ -200,6 +200,12 @@ session.commit()
 # Test again for ID... 
 # (it keeps the count in the order they entered the database)
 print('ID: ' + str(mason.id))
+
+from sqlalchemy.ext.automap import automap_base
+Base = automap_base()
+Base.prepare(engine, reflect=True)
+
+
 
 # Some querying
 # order the results
@@ -486,11 +492,6 @@ for row in session.query(Book, Author):
 # Wait, Dickens wrote tale of two cities. 
 # The information from Author is recycled 
 
-# This will give us the correct answer  
-for b, a in session.query(Book, Book.author):
-    print(b, a)
-
-
 # We can print book and author if Book.author is not None
 for book, author in session.query(Book, Author).filter(Book.author != None):
     print (book.name, author.name)
@@ -500,6 +501,17 @@ for book in session.query(Book).join(Author):
     print(book.name, book.author.name)
 
 session.commit()
+
+
+# Using Distinct
+for i in session.query(Book.name):
+  print (i)
+
+for i in session.query(distinct(Book.name)):
+  print (i)
+
+for i in session.query(Book.name).distinct():
+  print (i)
 
 
 
