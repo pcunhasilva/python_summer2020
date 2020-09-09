@@ -24,7 +24,7 @@ os.chdir('/Users/pcunhasilva/Dropbox/PythonClass/Summer2020/Day7/Lab')
 Base = automap_base()
 
 # Create an engine
-engine = sqlalchemy.create_engine('sqlite:///geog.db', echo=False)
+engine = sqlalchemy.create_engine('sqlite:///geog.db', echo=True)
 
 # reflect the tables
 Base.prepare(engine, reflect=True)
@@ -41,19 +41,19 @@ Town = Base.classes.towns
 Session = sessionmaker(bind=engine)
 session = Session()
 
-# Create region 4
-reg5 = Region(name = 'Region 6')
+# Create region 6
+reg6 = Region(name = 'Region 6')
 
 # Create departments, nested in regions
 dept6 = Department(deptname = 'Department 6')
-reg5.departments_collection.append(dept6)
+reg6.departments_collection.append(dept6)
 
 # Create towns, nested in departments
 t10 = Town(name = 'j', population = 750000)
 dept6.towns_collection = [t10]
 
 # Add to our database
-session.add_all([reg5])
+session.add_all([reg6])
 session.add_all([dept6])
 session.add_all([t10])
 
