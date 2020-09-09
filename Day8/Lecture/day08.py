@@ -39,7 +39,7 @@ def nFactorial(n):
     if n == 1:
         return n
     else: 
-        return n * nFactorial(n-1)
+        return n * nFactorial(n = n-1)
 nFactorial(5)
 # Using factorial from math
 math.factorial(5)
@@ -123,7 +123,7 @@ my_numbers = [1, 9, 8, 5, 4, 6, 0, 2, 3, 7]
 
 def selection_sort(numbers):
     # Answer object 
-    numbers = numbers.copy()  
+    numbers = numbers.copy()  # to not modify the original input
     answer = []
     while len(numbers) > 0:
         answer.append(min(numbers))
@@ -147,8 +147,6 @@ def bubble_sort(numbers): # Not the most efficient
     n = len(numbers) - 2
     # Index used in the while loop
     i = 0
-    # Swap indicator
-    swap = True
     # Object to stop the while loop
     notSwap = len(my_numbers) - 2
     while notSwap != 0:   
