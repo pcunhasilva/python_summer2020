@@ -10,10 +10,11 @@ Created on Tue Sep  8 17:30:52 2020
 
 import importlib # to import file
 import sys # add directory to system PATH
-import io
-import re
-import time
-import json
+import tweepy
+#import io
+#import re
+#import time
+#import json
 
 sys.path.insert(0, '/Users/taylor/Documents/GitHub/python_summer2020/HW')
 
@@ -29,9 +30,8 @@ polisci = api.get_user('WUSTLPoliSci')
 # One-Degree Separation
 # =============================================================================
 
-#look up each user
+#######look up each user
 polsAll = polisci.followers_ids() #creates a list of user ids - up to 5000
-len(polsAll)
 
 #######need to find how many tweets everyone has
 tweetCount = [] #how many tweets the followers have
@@ -49,10 +49,12 @@ for follower_id in polsAll[0:len(polsAll)]:
 ######finding most active follower
 active_follower = api.get_user(polsAll[tweetCount.index(max(tweetCount))])
 print(active_follower.name)
+#十勝餡粒々@アメリカPh.D.リベンジ
 
 ######finding most popular follower
 pop_follower = api.get_user(polsAll[folfol.index(max(folfol))])
 print(pop_follower.name)
+#Brendan Nyhan
 
 #######need to find info about those WUSTL follows
 friends = api.friends_ids(polisci.id)
@@ -93,50 +95,81 @@ for friend_id in friends[0:len(friends)]:
 #######find most active of each category          
 active_layman = api.get_user(laymanID[laymanTweet.index(max(laymanTweet))])
 print(active_layman.name)
+#usman falalu
 
 active_celebrity = api.get_user(celebrityID[celebrityTweet.index(max(celebrityTweet))])
 print(active_celebrity.name)
+#The New York Times
 
 active_expert = api.get_user(expertID[expertTweet.index(max(expertTweet))])
 print(active_expert.name)
+#Tim... we're doomed
 
 #######find most popular friend
 popular_friend = api.get_user(friends[friendFol.index(max(friendFol))])
 print(popular_friend.name)
+#Barack Obama
 
 # =============================================================================
 # Two-Degree Separation
 # =============================================================================
-truncFriends = []
-truncFriends = laymanID + expertID
+    
+#Ben, this is actually still running on my computer. I'll put in the answers
 
-# Limit the followers to laymen and experts
+####Limit the followers to laymen and experts
 truncFollowers = []
-for follower_id in polsAll[0:len(polsAll)]:
+for follower_id in polsAll:
     user = api.get_user(follower_id)
     if user.followers_count <= 1000:
         truncFollowers.append(follower_id)
     else:
     	continue
-
+    
+####finding followers of followers and their tweets
 folFols = []
-folFolTweet = []
 for follower_id in truncFollowers:
+    try:
+        user = api.get_user(follower_id)
+        folFols.append(user.followers_ids())
+    except tweepy.TweepError:
+        continue
+
+folFolTweet = []
+for follower_id in folFols:
     user = api.get_user(follower_id)
-    folFols.append(user.followers_ids())
-    folFolTweet.append(user.statuses_count)
+    if user.followers_count <= 1000:
+        folFolTweet[follower_id] = user.statuses_count
+    else:
+        continue
 
 #####finding most active follower of followers
-active_folFol = api.get_user(truncFollowers[folFolTweet.index(max(folFolTweet))])
+active_folFol = api.get_user(max(folFolTweet, key=folFolTweet.get))
 print(active_folFol.name)
 
-active_friFri = api.get_user(truncFriends[folFolTweet.index(max(folFolTweet))])
+####finding friends of friends now
+
+truncFriends = []
+truncFriends = laymanID + expertID
+    #there are 75 in truncFriends
+
+friFriends = []
+for friend_id in truncFriends:
+    try:
+        friFriends.append(api.friends_ids(friend_id))
+    except tweepy.TweepError:
+        continue
+    
+friFriTweet = {}
+for friend_id in friFriends:
+    user = api.get_user(friend_id)
+    if user.followers_count <= 1000:  # further limit the friends' friends to laymen and experts
+        friFriTweet[friend_id] = user.statuses_count
+    else:
+        continue
+
+#####finding most active friends of friends
+active_friFri = api.get_user(max(friFriTweet, key=friFriTweet.get))
 print(active_friFri.name)
-
-
-
-
-
 
 
 
