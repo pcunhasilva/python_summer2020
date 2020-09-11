@@ -21,13 +21,12 @@ import numpy as np
 
 # Series:
 # - nX1 array. Similar to a vector in R.
-# - Hold any tupe of data, (integer, string, float, etc.)
+# - Hold any type of data, (integer, string, float, etc.)
 
 # Create a pd.Series:
 x = pd.Series([10, 100, 12, 5])
 # We index a Series as we do with lists
 x[0]
-
 
 # DataFrame:
 # - nXk array. Similar to a data.frame in R.
@@ -276,7 +275,7 @@ d.items()
 
 # iterate through items()
 for key, value in d.items():
-	if value == 1:
+	if value == 20:
 		print(key)
 
 for k, v in d.items():
@@ -344,7 +343,7 @@ def squared_num(num):
 	return r
 
 def print_squared(num):
-	pdb.set_trace()
+	# pdb.set_trace()
 	print('call squared_num')
 	answer = squared_num(num = num)
 	return answer
@@ -359,7 +358,7 @@ def print_squared(num):
 #        with n, we only see the steps in the current function
 
 print_squared(2)
-
+ns
 # Find more here: https://book.pythontips.com/en/latest/debugging.html
 
 
