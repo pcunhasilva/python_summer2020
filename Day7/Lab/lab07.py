@@ -1,3 +1,4 @@
+from sqlalchemy import *
 import sqlalchemy
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy import Column, Integer, String, ForeignKey, and_, or_
@@ -109,7 +110,7 @@ session.commit()
 
 # Some example querying 
 for town in session.query(Town).order_by(Town.id):
-  print(town.id, town.name, town.population)
+  print(town.name, town.population)
 
 
 # TODO: 
@@ -117,6 +118,34 @@ for town in session.query(Town).order_by(Town.id):
 #    more than 50,000 inhabitants.
 # 2. Display the total number of inhabitants
 #    per department
+
+# =============================================================================
+# 1   
+# =============================================================================
+
+#using filter
+for town in session.query(Town).filter(Town.population > 50000).order_by(Town.dept_id):
+     print(town.department, town.name, town.population)
+     
+#using if statements
+for town in session.query(Town).order_by(Town.dept_id):
+   if town.population > 50000:
+     print(town.department, town.name, town.population)
+   else:
+     None
+     
+# =============================================================================
+# 2
+# =============================================================================
+
+#for town in session.query(func.sum(Town.population).label("deptPop")).group_by(Town.dept_id):
+ #   print(department.name, town.deptPop)
+    
+qry = session.query(func.sum(Town.population).label("deptPop"))
+qry = qry.group_by(Town.dept_id)
+for _res in qry.all():
+   print(_res)
+
 
 
 
